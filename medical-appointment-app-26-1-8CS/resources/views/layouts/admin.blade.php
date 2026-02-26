@@ -9,7 +9,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script src="https://kit.fontawesome.com/0fd4e5c773.js" crossorigin="anonymous"></script>
+        
 
         <title>{{ $title  }}</title>
 
@@ -19,7 +19,12 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        {{-- Font Awesome CSS --}}
+        <script src="https://kit.fontawesome.com/0fd4e5c773.js" crossorigin="anonymous"></script>
 
+        {{-- WireUI --}}
+        <wireui:scripts />
         <!-- Styles -->
         @livewireStyles
     </head>
