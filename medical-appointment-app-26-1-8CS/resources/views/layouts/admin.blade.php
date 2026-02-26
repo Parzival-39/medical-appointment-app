@@ -1,3 +1,8 @@
+@props([
+    'title' => config('app.name', 'Laravel'), //Titulo por defecto
+    'breadcrumbs' => [], //Aray vacio por defecto
+])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -6,7 +11,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <script src="https://kit.fontawesome.com/0fd4e5c773.js" crossorigin="anonymous"></script>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ $title  }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -27,8 +32,9 @@
 
 <div class="p-4 sm:ml-64 mt-14">
     <div class="mt-14">
-        {{$slot}}
+        @include('layouts.includes.admin.breadcrumb')
     </div>
+    {{$slot}}
 </div>
 
 
