@@ -1,4 +1,5 @@
 @php
+
     $links = [
         [
             'name' => 'Dashboard',
@@ -7,32 +8,17 @@
             'active' => request()->routeIs('admin.dashboard'),
         ],
         [
-            'header' => 'Administración',
+            'header' => 'Gestión',
         ],
         [
-            'name' => 'Tienda en linea',
-            'icon' => 'fa-solid fa-user-group',
-            'href' => '#', // Cambiado a '#' para que no redireccione si tiene submenú
-            'active' => request()->routeIs('admin.tienda.*'), // Ajusta según tus rutas
-            'submenu' => [
-                [
-                    'name' => 'Productos',
-                    'href' => '#',
-                    'active' => false,
-                ],
-                [
-                    'name' => 'Categoria',
-                    'href' => '#',
-                    'active' => false,
-                ],
-                [
-                    'name' => 'Pedidos',
-                    'href' => '#',
-                    'active' => false,
-                ],
-            ],
+            'name' => 'Roles y permisos',
+            'icon' => 'fa-solid fa-shield-halved',
+            'href' => route('admin.roles.index'),
+            'active' => request()->routeIs('admin.roles.*'), // Ajusta según tus rutas
+
         ],
     ];
+
 @endphp
 
 <aside id="top-bar-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
@@ -67,16 +53,15 @@
                                 @foreach ($link['submenu'] as $item)
                                     <li>
                                         <a href="{{ $item['href'] }}" 
-                                           class="pl-10 flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group">
-                                           {{ $item['name'] }}
+                                        class="pl-10 flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group">
+                                        {{ $item['name'] }}
                                         </a>
                                     </li>
                                 @endforeach
                             </ul>
                         @else
                             {{-- Renderiza Enlace Simple (Solo si NO hay submenú) --}}
-                            <a href="{{ $link['href'] }}" 
-                               class="flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group {{ $link['active'] ? 'bg-gray-100' : '' }}">
+                            <a href="{{ $link['href'] }}" class="flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group {{ $link['active'] ? 'bg-gray-100' : '' }}">
                                 <span class="w-6 h-6 inline-flex items-center justify-center text-gray-500">
                                     <i class="{{ $link['icon'] }}"></i>
                                 </span>
