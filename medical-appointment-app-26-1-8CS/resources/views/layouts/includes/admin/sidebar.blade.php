@@ -23,6 +23,13 @@
             'active' => request()->routeIs('admin.users.*'),  //ESTO HACE QUE SI ESTA ACTIVO CUALQUIER RUTA DE USUARIOS, 
                                                               //SE MANTENGA EL LINK ACTIVO
         ],
+        [
+            'name' => 'Pacientes',
+            'icon' => 'fa-solid fa-user-injured',
+            'href' => route('admin.patients.index'),
+            'active' => request()->routeIs('admin.patients.*'),
+        ],
+
     ];
 
 @endphp
