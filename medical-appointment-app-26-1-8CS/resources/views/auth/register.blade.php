@@ -20,6 +20,21 @@
             </div>
 
             <div class="mt-4">
+                <x-label for="id_number" value="{{ __('Identificación (ID)') }}" />
+                <x-input id="id_number" class="block mt-1 w-full" type="text" name="id_number" :value="old('id_number')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="phone_number" value="{{ __('Teléfono') }}" />
+                <x-input id="phone_number" class="block mt-1 w-full" type="text" name="phone_number" :value="old('phone_number')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="address" value="{{ __('Dirección') }}" />
+                <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
+            </div>
+
+            <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
@@ -34,7 +49,6 @@
                     <x-label for="terms">
                         <div class="flex items-center">
                             <x-checkbox name="terms" id="terms" required />
-
                             <div class="ms-2">
                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
                                         'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',

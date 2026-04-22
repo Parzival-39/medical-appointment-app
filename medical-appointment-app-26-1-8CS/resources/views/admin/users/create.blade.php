@@ -45,13 +45,14 @@
             <x-wire-native-select name="role_id" label="Rol" required>
               <option value="">
                 Seleccione un rol
-              </option>
-
-              @foreach ($roles as $role)
+                @foreach ($roles as $role)
                 <option value="{{ $role->id }}" @selected(old('role_id') == $role->id)>
                   {{ $role->name }}
                 </option>
               @endforeach
+              </option>
+
+              
             </x-wire-native-select>
             <p class="text-sm text-gray-500">
               Define los permisos y accesos del usuario

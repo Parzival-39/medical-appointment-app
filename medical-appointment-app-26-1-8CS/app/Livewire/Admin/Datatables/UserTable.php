@@ -37,7 +37,7 @@ class UserTable extends DataTableComponent
             Column::make("Numero de id", "id_number")
                 ->sortable(),
             Column::make("Telefono", "phone_number")
-                ->sortable(), 
+                ->sortable(),
             Column::make("Rol", "roles")
                 ->label(function($row) {
                     return $row->roles->first()->name ?? 'Sin Rol';
