@@ -73,7 +73,7 @@
                       'text-blue-600 border-blue-600 active': tab === 'Antecedentes',
                       'border-transparent hover:text-blue-600 hover:border-gray-300': tab !== 'Antecedentes'
                     }"
-                    class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group transition-colors duration-200"
+                    class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-base group transition-colors duration-200"
                     :aria-current="tab === 'Antecedentes' ? 'page' : undefined">
                     <i class="fa-solid fa-file me-2"></i>
                         Antecedentes
