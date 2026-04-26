@@ -1,3 +1,30 @@
+{{-- Lógican de PHP para manejar errores y controlar la pestaña activa --}}
+
+<?php
+    //Definimos que campos pertencen a cada pestaña para detectar errorres
+    $errorGroups = [
+        'antecedentes' => ['allergies', 'chronic_conditions', 'surgical_history', 'family_history'],
+        'informacion-general' => ['blood_type_id', 'observations'],
+        'contacto-emergencia' => [
+            'emergency_contact_name',
+            'emergency_contact_phone',
+            'emergency_contact_relationship'
+        ],
+    ];
+
+    //Pestaña por defecto
+    $initialTab = 'datos-personales';
+
+    //Si hay errores, detectamos a que grupo pertenecen para activar la pestaña correspondiente
+    foreach ($errorGroups as $tabName => $fields) {
+            if ($errors->hasAny($fields)) {
+                $initialTab = $tabName;
+                break; // Salimos del bucle
+            }
+    }
+?>
+
+
 <x-admin-layout title="Pacientes" :breadcrumbs="[
     ['name' => 'Dashboard', 'href' => route('admin.dashboard')],
     ['name' => 'Pacientes', 'href' => route('admin.patients.index')],
@@ -31,51 +58,97 @@
 
         {{-- Tabs --}}
         <x-wire-card>
-            <div x-data="{ tab: 'datos-personales' }">
+            <div x-data="{ tab: '$initialTab' }">
 
                 {{-- Menú de pestañas --}}
+                {{-- Tab1: Datos personales--}}
                 <div class="border-b border-gray-200 mb-6">
-                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500">
+                    
                         <li class="me-2">
                             <a href="#" x-on:click.prevent="tab = 'datos-personales'"
-                               :class="tab === 'datos-personales' ? 'text-blue-600 border-blue-600' : 'border-transparent hover:text-blue-600 hover:border-gray-300'"
-                               class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200">
+                            :class="tab === 'datos-personales' ? 'text-blue-600 border-blue-600' : 'border-transparent hover:text-blue-600 hover:border-gray-300'"
+                            class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200">
                                 <i class="fa-solid fa-user mr-2"></i>
                                 Datos Personales
                             </a>
                         </li>
+                {{-- Tab2: Antecedentes --}}
 
+                <?php
+                    $hasError = $errors->hasAny($errorGroups['antecedentes']);
+                ?>
                         <li class="me-2">
                             <a href="#" x-on:click.prevent="tab = 'antecedentes'"
-                               :class="tab === 'antecedentes' ? 'text-blue-600 border-blue-600' : 'border-transparent hover:text-blue-600 hover:border-gray-300'"
-                               class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200">
+                            :class="{
+                                'text-red-600 border-red-600': {{ $hasError ? 'true' : 'false' }}  &&
+                                tab !== 'antecedentes',
+                                'text-blue-600 border-blue-600': tab === 'antecedentes' && !{{ $hasError ? 'true' : 'false' }},
+                                'text-red-600 border-red-600': tab === 'antecedentes' && {{ $hasError ? 'true' : 'false' }},
+                                'border-transparent hover:text-blue-600 hover:border-gray-300': tab !== 'antecedentes'&& !{{ $hasError ? 'true' : 'false' }}
+                            }"
+                            class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200
+                            {{ $hasError ? 'text-red-600 border-red-600' : '' }}"
+                            :aria-current="tab === 'antecedentes' ? 'page' : undefined">
                                 <i class="fa-solid fa-file-lines mr-2"></i>
                                 Antecedentes
+                                @if ($hasError)
+                                    <i class="fa-solid fa-circle-exclamation ms-2 animate-pulse"></i>
+                                @endif
                             </a>
                         </li>
-
+                {{-- Tab3: Información general --}}
+                <?php
+                    $hasError = $errors->hasAny($errorGroups['informacion-general']);
+                ?>
                         <li class="me-2">
                             <a href="#" x-on:click.prevent="tab = 'informacion-general'"
-                               :class="tab === 'informacion-general' ? 'text-blue-600 border-blue-600' : 'border-transparent hover:text-blue-600 hover:border-gray-300'"
-                               class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200">
+                                :class="{
+                                'text-red-600 border-red-600': {{ $hasError ? 'true' : 'false' }}  &&
+                                tab !== 'informacion-general',
+                                'text-blue-600 border-blue-600': tab === 'informacion-general' && !{{ $hasError ? 'true' : 'false' }},
+                                'text-red-600 border-red-600': tab === 'informacion-general' && {{ $hasError ? 'true' : 'false' }},
+                                'border-transparent hover:text-blue-600 hover:border-gray-300': tab !== 'informacion-general' && !{{ $hasError ? 'true' : 'false' }}
+                            }"
+                            class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200
+                            {{ $hasError ? 'text-red-600 border-red-600' : '' }}"
+                            :aria-current="tab === 'informacion-general' ? 'page' : undefined">
                                 <i class="fa-solid fa-info mr-2"></i>
                                 Información General
+                                @if ($hasError)
+                                    <i class="fa-solid fa-circle-exclamation ms-2 animate-pulse"></i>
+                                @endif
                             </a>
                         </li>
+                {{-- Tab4: Contacto de emergencia --}}
+                <?php
+                    $hasError = $errors->hasAny($errorGroups['contacto-emergencia']);
+                ?>
 
                         <li class="me-2">
                             <a href="#" x-on:click.prevent="tab = 'contacto-emergencia'"
-                               :class="tab === 'contacto-emergencia' ? 'text-blue-600 border-blue-600' : 'border-transparent hover:text-blue-600 hover:border-gray-300'"
-                               class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200">
+                                :class="{
+                                'text-red-600 border-red-600': {{ $hasError ? 'true' : 'false' }}  &&
+                                tab !== 'contacto-emergencia',
+                                'text-blue-600 border-blue-600': tab === 'contacto-emergencia' && !{{ $hasError ? 'true' : 'false' }},
+                                'text-red-600 border-red-600': tab === 'conteacto-emergencia' && {{ $hasError ? 'true' : 'false' }},
+                                'border-transparent hover:text-blue-600 hover:border-gray-300': tab !== 'contacto-emergencia' && !{{ $hasError ? 'true' : 'false' }}
+                            }"
+                            class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-colors duration-200
+                            {{ $hasError ? 'text-red-600 border-red-600' : '' }}"
+                            :aria-current="tab === 'contacto-emergencia' ? 'page' : undefined">
                                 <i class="fa-solid fa-heart mr-2"></i>
                                 Contacto de Emergencia
+                                @if ($hasError)
+                                    <i class="fa-solid fa-circle-exclamation ms-2 animate-pulse"></i>
+                                @endif
                             </a>
                         </li>
-                    </ul>
+                    
                 </div>
 
                 {{-- Contenedor de Contenidos --}}
-                <div class="mt-4">
+                
+
                     {{-- Tab 1: Datos Personales --}}
                     <div x-show="tab === 'datos-personales'">
                         <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg shadow-sm">
@@ -148,20 +221,20 @@
                         
                         </x-wire-native-select>
 
-                        <x-wire-textarea label="Observaciones" name="observations">
-                            {{ old('observations', $patient->observations) }}
-                        </x-wire-textarea>
-                    </div>
+                        
 
                     {{-- Tab 4: Contacto de Emergencia --}}
                     <div x-show="tab === 'contacto-emergencia'" style="display: none;">
                         <div class="space-y-4">
                             <x-wire-input label="Nombre de contacto" name="emergency_contact_name" value="{{ old('emergency_contact_name', $patient->emergency_contact_name) }}" />
+
                             <x-wire-phone label="Teléfono de contacto" name="emergency_contact_phone" mask="(###) ###-####" placeholder="(999) 999-9999" value="{{ old('emergency_contact_phone', $patient->emergency_contact_phone) }}" />
+
                             <x-wire-input label="Relación con el contacto" name="emergency_contact_relationship" placeholder="Familiar, Amigo, etc." value="{{ old('emergency_contact_relationship', $patient->emergency_contact_relationship) }}" />
                         </div>
                     </div>
-                </div> {{-- Cierre de contenedor de contenidos --}}
+
+                 {{-- Cierre de contenedor de contenidos --}}
             </div> {{-- Cierre de x-data --}}
         </x-wire-card>
 
