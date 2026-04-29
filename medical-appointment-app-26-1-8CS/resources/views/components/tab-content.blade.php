@@ -1,4 +1,4 @@
 @props(['tab', 'error' => false])
-<div x-show="tab === '{{ $tab }}'" style="display: none">
+<div x-show="tab === '{{ $tab }}'" x-cloak>
     {{ $slot }}
 </div>

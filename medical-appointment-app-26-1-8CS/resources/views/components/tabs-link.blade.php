@@ -1,17 +1,18 @@
 @props(['tab', 'error' => false])
 
 <li class="me-2">
-    <a href="#" x-on:click="tab = '{{ $tab}}"
+    <a href="#" x-on:click="tab = '{{ $tab}}'"
       :class="{
-        'text-red-600 border-red-600': {{ $error ? 'true' : 'false' }}, && tab !== '{{ $tab }}',
+        'text-red-600 border-red-600': {{ $error ? 'true' : 'false' }} && tab !== '{{ $tab }}',
         'text-blue-600 border-blue-600 active': tab === '{{ $tab }}' && !{{ $error ? 'true' : 'false' }},
         'text-red-600 border-red-600 active': tab === '{{ $tab }}' && {{ $error ? 'true' : 'false' }},
         'border-transparent hover:text-blue-600 hover:border-gray-300': tab !== '{{ $tab }}' && !
       }"
       class="inline-block items-center justify-center p-4 border-b-2 rounded-t-lg group transition-colors duration-200 {{ $error ? 'text-red-600' : '' }}"
-      :aria-current="tab === '{{ $tab }}' ? 'page' : undefined"></a>
+      :aria-current="tab === '{{ $tab }}' ? 'page' : undefined">
       {{ $slot }}
       @if ($error)
-        <i class="fa-solid fa-cicle-exclamation ms-2 animate-pulse"></i>
-    @endif
+        <i class="fa-solid fa-circle-exclamation ms-2 animate-pulse"></i>
+      @endif
+    </a>
 </li>

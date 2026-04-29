@@ -37,6 +37,9 @@ $table->string('allergies')
 
             $table->string('family_history')
                 ->nullable();
+            
+            $table->string('observations')
+                ->nullable();
 
             $table->string('emergency_contact_name')
                 ->nullable();

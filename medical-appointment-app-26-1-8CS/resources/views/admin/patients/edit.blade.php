@@ -40,8 +40,8 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
                     <img src="{{ $patient->user->profile_photo_url }}"
-                         alt="{{ $patient->user->name }}"
-                         class="w-20 h-20 rounded-full object-cover object-center">
+                        alt="{{ $patient->user->name }}"
+                        class="w-20 h-20 rounded-full object-cover object-center">
                     <div class="ml-4">
                         <p class="text-2xl font-bold">{{ $patient->user->name }}</p>
                     </div>
@@ -220,6 +220,11 @@
                             @endforeach
                         
                         </x-wire-native-select>
+                    
+                        <x-wire-textarea label="Observaciones" name="observations">
+                            {{ old('observations', $patient->observations) }}
+                        </x-wire-textarea>
+                    </div>
 
                         
 
